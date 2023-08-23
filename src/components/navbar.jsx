@@ -1,11 +1,17 @@
 import React, { useState } from "react";
 
-const Navbar = () => {
+const Navbar = ({ datos, setDatos }) => {
   const [busqueda, setBusqueda] = useState("");
   const buscarPelicula = (e) => {
     let busqueda = e.target.value;
-    console.log(busqueda);
-    setBusqueda(busqueda);
+    let resultado = datos.filter((pelicula) => {
+      return pelicula.titulo.includes(busqueda);
+    });
+    //leemos el localstorage para verificar la aplicacion del filtro
+    if (busqueda.length <= 1 || busqueda.length <= 0) {
+      resultado = JSON.parse(localStorage.getItem("pelicula"));
+    }
+    setDatos(resultado);
   };
   return (
     <>
@@ -15,7 +21,7 @@ const Navbar = () => {
       >
         <div className="container-fluid">
           <a className="navbar-brand" href="www.test.com">
-            <img src="./images/logo.png" alt="" srcset="" />
+            <img src="./images/logo.png" alt="" srcSet="" />
           </a>
           <button
             className="navbar-toggler"

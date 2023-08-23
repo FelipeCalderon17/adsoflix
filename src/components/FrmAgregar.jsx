@@ -1,17 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 
-const FrmAgregar = () => {
-  const [datos, setDatos] = useState({});
-
-  const salvarLocal = (data) => {
+const FrmAgregar = ({ datos, setDatos }) => {
+  const salvarLocal = (datos) => {
     //leemos la info del localStorage
     let elementos = JSON.parse(localStorage.getItem("pelicula"));
     //Agregamos al localstorage
     if (Array.isArray(elementos)) {
-      elementos.push(data);
+      elementos.push(datos);
     } else {
-      elementos = [data];
+      elementos = [datos];
     }
+    setDatos(elementos);
     localStorage.setItem("pelicula", JSON.stringify(elementos));
   };
 
@@ -19,13 +18,13 @@ const FrmAgregar = () => {
     e.preventDefault(); //Para evitar la recarga automatica
     let titulo = e.target.titulo.value; //el e.target es el objetivo que dispara el evento y se llaman por los ID
     let descripcion = e.target.descripcion.value;
-    let data = {
+    let datos = {
       id: new Date().getTime(),
       titulo: titulo,
       descripcion: descripcion,
     };
-    setDatos(data);
-    salvarLocal(data);
+    setDatos(datos);
+    salvarLocal(datos);
   };
   return (
     <>
@@ -45,7 +44,7 @@ const FrmAgregar = () => {
                 id="titulo"
                 placeholder="Titulo..."
               />
-              <label for="floatingInput">Titulo...</label>
+              <label htmlFor="floatingInput">Titulo...</label>
             </div>
             <div className="form-floating">
               <textarea
@@ -54,7 +53,7 @@ const FrmAgregar = () => {
                 id="descripcion"
                 style={{ height: "120px", resize: "none" }}
               ></textarea>
-              <label for="floatingTextarea2">Descripcion</label>
+              <label htmlFor="floatingTextarea2">Descripcion</label>
             </div>
             <input
               type="submit"
